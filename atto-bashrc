@@ -40,7 +40,7 @@ function oe {
 }
 
 function deploy {
-    cd "$OE_BUILD_DIR/build/tmp-attolinux-12.x-eglibc/deploy"
+    cd "$OE_BUILD_DIR/build/tmp-attolinux-12_x-eglibc/deploy"
 }
 
 function bitbake {
