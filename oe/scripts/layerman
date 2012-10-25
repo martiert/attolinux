@@ -1,0 +1,65 @@
+#!/bin/bash
+
+LAYERNAME=$1
+LAYERURI=$2
+BRANCH=$3
+REV=$4
+COMMAND=$5
+COMMANDARG=$6
+
+LAYERDIR="${OE_SOURCE_DIR}/${LAYERNAME}"
+
+function check_layer() {
+    if ! [ -e ${LAYERDIR} ] ; then
+        echo "Layer checkout missing at ${LAYERDIR}, creating one"
+        git clone ${LAYERURI} ${LAYERDIR}
+        cd ${LAYERDIR}
+
+        if [ "${BRANCH}" != "master" ] ; then
+            git checkout origin/${BRANCH} -b ${BRANCH}
+        fi
+
+        if [ "${REV}" != "HEAD" ] ; then
+            git checkout ${REV}
+        fi
+    fi
+}
+
+function update_layers() {
+    check_layer
+
+    if [ "${REV}" = "HEAD" ] ; then
+        cd ${LAYERDIR} && echo "Updating layer at layers/${LAYERNAME}" 
+        stash=$(git stash)
+        git pull --rebase
+        if [ "$stash" != "No local changes to save" ]; then
+            git stash pop >& /dev/null
+        fi
+    fi
+    echo ""
+
+    echo "Layers present in repository:"
+    find ${LAYERDIR} -name "layer.conf" | sed -e s:${LAYERDIR}:${LAYERNAME}:g -e s:/conf/layer\.conf::g
+    echo
+}
+
+function tag_layers() {
+    check_layer
+    cd ${LAYERDIR} && echo "Tagging layer with $COMMANDARG" && git tag $COMMANDARG
+    echo ""
+}
+
+function diff_tags() {
+    check_layer
+    cd ${LAYERDIR} && echo "Changes in between $COMMANDARG" && git shortlog $COMMANDARG
+    echo ""
+}
+
+case $COMMAND in
+tag)
+    tag_layers;;
+changelog)
+    diff_tags;;
+*)
+    update_layers;;
+esac

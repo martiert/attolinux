@@ -1,0 +1,4 @@
+# Name,repo-uri,branch,rev
+bitbake,git://git.openembedded.org/bitbake.git,master,HEAD
+meta-openembedded,git://git.openembedded.org/meta-openembedded.git,master,HEAD
+openembedded-core,git://git.openembedded.org/openembedded-core.git,master,HEAD

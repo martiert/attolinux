@@ -1,0 +1,8 @@
+build
+environment-oecore
+oe/conf/auto.conf
+oe/conf/site.conf
+oe/sources/bitbake
+oe/sources/openembedded-core
+oe/sources/meta-*
+oe/sources/downloads
