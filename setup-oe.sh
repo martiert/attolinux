@@ -40,8 +40,8 @@ else
 fi
 
 pushd $target_dir >/dev/null
-MACHINE=atto-panda ./oebb.sh config atto-panda
-MACHINE=atto-panda ./oebb.sh update
+MACHINE=n450 ./oebb.sh config n450
+MACHINE=n450 ./oebb.sh update
 
 if [ "x$1" = "x--with-origin" ]; then
     #setup master on git repo's
