@@ -6,3 +6,6 @@ oe/sources/bitbake
 oe/sources/openembedded-core
 oe/sources/meta-*
 oe/sources/downloads
+oe/bitbake.lock
+oe/conf/sanity_info
+oe/pseudodone
