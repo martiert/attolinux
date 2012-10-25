@@ -2,3 +2,4 @@
 bitbake,git://git.openembedded.org/bitbake.git,master,HEAD
 meta-openembedded,git://git.openembedded.org/meta-openembedded.git,master,HEAD
 openembedded-core,git://git.openembedded.org/openembedded-core.git,master,HEAD
+meta-atto,git://github.com/martiert/meta-atto.git,master,HEAD
