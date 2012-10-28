@@ -46,18 +46,21 @@ MACHINE=n450 ./oebb.sh update
 if [ "x$1" = "x--with-origin" ]; then
     #setup master on git repo's
     pushd sources >/dev/null
-    for dir in "bitbake" "meta-openembedded" "openembedded-core"; do
+    for dir in "bitbake" "meta-openembedded" "openembedded-core" "meta-intel"; do
         pushd $dir >/dev/null
         git remote rename origin tetris
         case $dir in
             "bitbake")
-                git remote add origin git://git.openembedded.org/bitbake
+                git remote add upstream git://git.openembedded.org/bitbake
             ;;
             "meta-openembedded")
-                git remote add origin git://git.openembedded.org/meta-openembedded
+                git remote add upstream git://git.openembedded.org/meta-openembedded
             ;;
             "openembedded-core")
-                git remote add origin git://git.openembedded.org/openembedded-core
+                git remote add upstream git://git.openembedded.org/openembedded-core
+            ;;
+            "meta-intel")
+                git remote add upstream git://git.yoctoproject.org/meta-intel
             ;;
             *)
                 echo $dir
