@@ -43,12 +43,11 @@ pushd $target_dir >/dev/null
 MACHINE=n450 ./oebb.sh config n450
 MACHINE=n450 ./oebb.sh update
 
-if [ "x$1" = "x--with-origin" ]; then
+if [ "x$1" = "x--with-upstream" ]; then
     #setup master on git repo's
     pushd sources >/dev/null
     for dir in "bitbake" "meta-openembedded" "openembedded-core" "meta-intel"; do
         pushd $dir >/dev/null
-        git remote rename origin tetris
         case $dir in
             "bitbake")
                 git remote add upstream git://git.openembedded.org/bitbake
@@ -66,8 +65,7 @@ if [ "x$1" = "x--with-origin" ]; then
                 echo $dir
             ;;
         esac
-        git fetch origin
-        git branch master origin/master
+        git fetch upstream
         popd >/dev/null
     done
     popd >/dev/null
