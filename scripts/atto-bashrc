@@ -1,0 +1,71 @@
+#!/bin/bash
+
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+
+GREEN="\033[0;32;40m"
+SILVER="\033[0;37;40m"
+CYAN="\033[0;36;40m"
+RED="\033[1;31;40m"
+YELLOW="\033[1;33;40m"
+MAGENTA="\033[0;35;40m"
+GRAY="\033[1;30;40m"
+
+function parse_git_branch_and_add_brackets {
+    branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    if [ -n "$branch" ]; then
+        echo -e " ${GRAY}branch=${YELLOW}${branch}"
+    fi
+}
+
+PS1="${GREEN}[${CYAN}ATTO ${SILVER}\w\$(parse_git_branch_and_add_brackets)${GREEN}]\e[m\n\$ "
+
+source ~/.oe/environment-atto
+
+function update-oe {
+    pushd "$OE_BUILD_DIR" >/dev/null
+    git pull && ./oebb.sh update
+    ret=$?
+    popd >/dev/null
+    return $ret
+}
+
+function oe {
+    cd "$OE_BUILD_DIR"
+}
+
+function deploy {
+    cd "$OE_BUILD_DIR/build/tmp-attolinux_12_x-eglibc/deploy"
+}
+
+function bitbake {
+    pushd "$OE_BUILD_DIR" >/dev/null
+    sources/openembedded-core/scripts/bitbake "$@"
+    ret=$?
+    popd >/dev/null
+    return $ret
+}
+cd oe
+
+# Some common terminal programs to choose from
+GNOME_TERMCMD='gnome-terminal --disable-factory -t "$TERMWINDOWTITLE"'
+GNOME_TERMCMDRUN='${GNOME_TERMCMD} -x $SHELLCMDS'
+SCREEN_TERMCMD='screen -D -m -t "$TERMWINDOWTITLE"'
+SCREEN_TERMCMDRUN='${SCREEN_TERMCMD} $SHELLCMDS'
+XTERM_TERMCMD='xterm -T "$TERMWINDOWTITLE"'
+XTERM_TERMCMDRUN='${XTERM_TERMCMD} -e $SHELLCMDS'
+KONSOLE_TERMCMD='konsole -T "$TERMWINDOWTITLE"'
+KONSOLE_TERMCMDRUN='${KONSOLE_TERMCMD} -e $SHELLCMDS'
+
+export TERMCMD="${SCREEN_TERMCMD}"
+export TERMCMDRUN="${SCREEN_TERMCMDRUN}"
+
+export BB_ENV_EXTRAWHITE="TBETETRIS_BUILD_ID ${BB_ENV_EXTRAWHITE}"
+
+[ -f "$OE_BUILD_DIR/../.local" ] && source "$OE_BUILD_DIR/../.local"
+
