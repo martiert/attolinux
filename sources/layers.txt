@@ -1,5 +1,5 @@
-bitbake,git://github.com/martiert/bitbake.git,master,HEAD
-meta-atto,git://github.com/martiert/meta-atto,master,HEAD
-meta-openembedded,git://github.com/martiert/meta-openembedded.git,master,HEAD
-meta-ti,git://github.com/martiert/meta-ti.git,master,HEAD
-openembedded-core,git://github.com/martiert/openembedded-core.git,master,HEAD
+bitbake,git@github.com:martiert/bitbake.git,master,HEAD
+meta-atto,git@github.com:martiert/meta-atto,master,HEAD
+meta-openembedded,git@github.com:martiert/meta-openembedded.git,master,HEAD
+meta-ti,git@github.com:martiert/meta-ti.git,master,HEAD
+openembedded-core,git@github.com:martiert/openembedded-core.git,master,HEAD
