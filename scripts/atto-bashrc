@@ -40,17 +40,17 @@ function oe {
 }
 
 function deploy {
-    cd "$OE_BUILD_DIR/build/tmp-attolinux_12_x-eglibc/deploy"
+    cd "$OE_BUILD_TMPDIR/deploy"
 }
 
 function bitbake {
     pushd "$OE_BUILD_DIR" >/dev/null
-    sources/openembedded-core/scripts/bitbake "$@"
+    sources/bitbake/bin/bitbake "$@"
     ret=$?
     popd >/dev/null
     return $ret
 }
-cd oe
+oe
 
 # Some common terminal programs to choose from
 GNOME_TERMCMD='gnome-terminal --disable-factory -t "$TERMWINDOWTITLE"'
@@ -62,10 +62,10 @@ XTERM_TERMCMDRUN='${XTERM_TERMCMD} -e $SHELLCMDS'
 KONSOLE_TERMCMD='konsole -T "$TERMWINDOWTITLE"'
 KONSOLE_TERMCMDRUN='${KONSOLE_TERMCMD} -e $SHELLCMDS'
 
-export TERMCMD="${SCREEN_TERMCMD}"
-export TERMCMDRUN="${SCREEN_TERMCMDRUN}"
+export TERMCMD="${XTERM_TERMCMD}"
+export TERMCMDRUN="${XTERM_TERMCMDRUN}"
 
-export BB_ENV_EXTRAWHITE="TBETETRIS_BUILD_ID ${BB_ENV_EXTRAWHITE}"
+export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} ${TERMCMD} ${TERMCMDRUN}"
 
 [ -f "$OE_BUILD_DIR/../.local" ] && source "$OE_BUILD_DIR/../.local"
 
